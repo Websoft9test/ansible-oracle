@@ -1,17 +1,17 @@
 # FAQ
 
-#### 如何以调试模式启动RabbitMQ服务？
+#### 如何以调试模式启动oracle服务？
 
 ```
-systemctl stop rabbitmq-server
-rabbitmq-server console
+systemctl stop oracle-server
+oracle-server console
 ```
 
-#### 是否可以通过命令行修改RabbitMQ后台密码？
+#### 是否可以通过命令行修改oracle后台密码？
 
-可以，`rabbitmqctl change_password  admin newpassword`
+可以，`oraclectl change_password  admin newpassword`
 
-#### 如果没有域名是否可以部署 RabbitMQ？
+#### 如果没有域名是否可以部署 oracle？
 
 #### 数据库 root 用户对应的密码是多少？
 
@@ -27,7 +27,7 @@ rabbitmq-server console
 
 连接服务器，编辑 [phpMyAdmin 配置文件](/zh/stack-components.md#phpmyadmin)，将其中的 `Require all granted` 更改为 `Require ip 192.160.1.0`，然后重启 Apache 服务
 
-#### 是否可以修改RabbitMQ的源码路径？
+#### 是否可以修改oracle的源码路径？
 
 不可以
 

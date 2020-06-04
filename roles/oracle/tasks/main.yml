@@ -1,0 +1,109 @@
+
+
+# configure oracle
+
+- name: Create oracle User
+  user:
+    name: oracle
+    shell: /usr/sbin/nologin
+    home: /data/wwwroot/oracle
+    create_home: no
+
+- name: Create oracle directory
+  file:
+    path: /data/wwwroot/oracle
+    state: directory
+    owner: oracle
+    group: oracle
+    
+- name: Download oracle
+  get_url:
+    dest: /data/wwwroot/oracle
+    url: "{{oracle_download_url}}"
+    owner: oracle
+    group: oracle
+
+- name: install oracle
+  shell: yum localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm
+
+
+- name: Add oracle repositories 
+  yum_repository:
+    name: oracle
+    description: oracle yum repo
+    file: yum.repos.d
+    baseurl: http://public-yum.oracle.com/public-yum-ol7.repo
+    gpgcheck: no
+
+- name: Set oracle config
+  template:
+    src: oracle.conf.jinja2
+    dest: /data/wwwroot/oracle/oracle.conf
+    owner: oracle
+    group: oracle
+
+
+
+- name: Restart oracle
+  service:
+    name: oracle.service
+    state: restarted
+    enabled: yes
+
+- name: Create oracle System User
+  user:
+      name: oracle 
+      create_home: no 
+      home: /opt/oracle
+      shell: /usr/sbin/nologin
+
+- name: Download oracle
+  unarchive:
+      src: "{{oracle_download_url}}"
+      dest: /opt/ 
+      group: oracle 
+      remote_src: yes
+      owner: oracle
+      mode: g+w
+
+- name: Create the storage directory for files.
+  file:
+      path: /opt/oracle/data
+      state: directory 
+      owner: oracle 
+      group: oracle
+      mode: g+w
+      
+- name: Set database connection /opt/oracle/config/config.json
+  lineinfile:
+    dest: /opt/oracle/config/config.json
+    regexp: '"DataSource":'
+    line: '    "DataSource": "{{oracle_db_user}}:{{oracle_db_password}}@tcp(localhost:3306)/{{oracle_db_name}}?charset=utf8mb4,utf8&readTimeout=30s&writeTimeout=30s",'
+    backrefs: yes 
+
+
+- name: Configure oracle - enable administrator password
+  blockinfile:
+    path: /etc/hosts
+    block: |
+      localhost  localhost
+# set soft link, -b cover the exist links
+# ln -sb src des
+- name: set soft link
+  shell: |
+    ln -sb /opt/oracle  /data/wwwroot/oracle
+    ln -sb /opt/oracle/config /data/config/oracle
+
+# Check version,
+# must use sudo sh -c to solve the no-root permission
+- block:
+  - name: Check oracle Version
+    shell: sudo sh -c "oraclectl status | grep 'oracle version' 1>> /data/logs/install_version.txt"
+
+
+
+# check service state
+- name: Check oracle Service
+  shell: systemctl status oracle | grep Active*
+  register: check_oracle_service
+  notify: check_oracle_service
