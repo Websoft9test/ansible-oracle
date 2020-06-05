@@ -103,7 +103,7 @@
 
 
 # check service state
-- name: Check oracle Service
+- name: Check oracle Service     
   shell: systemctl status oracle | grep Active*
   register: check_oracle_service
   notify: check_oracle_service
