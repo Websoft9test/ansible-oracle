@@ -36,10 +36,13 @@
 
 
 - name: install oracle
-  shell: |
+  shell: 
         wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm 
-         yum localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm
-  
+         
+
+- name: install oracle
+  shell: yum localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm
+
 
 # oracle configuration
 - name: Set password
