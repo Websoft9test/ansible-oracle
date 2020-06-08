@@ -34,16 +34,10 @@
   #  gpgcheck: no
   
 
-- name: Download oracle
-  get_url:
-    dest: /data/wwwroot/oracle
-    url: "{{oracle_download_url}}"
-    owner: root
-    group: root
 
 - name: install oracle
   shell: |
-        cd /data/wwwroot/oracle
+        wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm 
          yum localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm
   
 
