@@ -42,8 +42,10 @@
     group: root
 
 - name: install oracle
-  shell: yum localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm
-
+  shell: |
+        cd /data/wwwroot/oracle
+         yum localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm
+  
 
 # oracle configuration
 - name: Set password
