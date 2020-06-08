@@ -15,5 +15,5 @@
     #- {role: role_common, tags: "role_common"}  
     #- {role: role_jdk, tags: "role_jdk"}  
     - {role: oracle, tags: "oracle"}
-    - {role: role_preend, tags: "preend"}
+    #- {role: role_preend, tags: "preend"}
    # #- {role: role_end, tags: "role_end"}
