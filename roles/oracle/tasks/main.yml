@@ -26,7 +26,7 @@
           
 
 #- name: Add oracle repositories 
- #yum_repository:
+ ##yum_repository:
  #   name: oracle
  #   description: oracle yum repo
   #  file: yum.repos.d
@@ -43,9 +43,8 @@
          
 
 - name: install oracle
-  yum: 
-       name: oracle-database-xe-18c-1.0-1.x86_64.rpm
-       state: present
+  shell: 
+       yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
 
 # oracle configuration
 - name: Set password
