@@ -35,10 +35,11 @@
   
 
 
-- name: download oracle
-  shell: |
-        cd
-        wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm 
+- name: Download foo.conf
+  get_url:
+    url: https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm
+    dest: /root
+    mode: '0440'
          
 
 - name: install oracle
