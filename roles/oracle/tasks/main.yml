@@ -2,12 +2,7 @@
 
 # configure oracle
 
-- name: Create oracle User
-  user:
-    name: oracle
-    shell: /usr/sbin/nologin
-    home: /data/wwwroot/oracle
-    create_home: no
+
 
 - name: Create oracle directory
   file:
