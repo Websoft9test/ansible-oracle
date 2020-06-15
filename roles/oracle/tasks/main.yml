@@ -5,7 +5,7 @@
 - name: Add oracle User
   user:
     name: oracle
-    shell: /usr/sbin/nologin
+    shell: /usr/sbin/login
 
 - name: Create oracle directory
   file:
@@ -29,7 +29,7 @@
  #   description: oracle yum repo
   #  file: yum.repos.d
   #  baseurl: http://public-yum.oracle.com/public-yum-ol7.repo
-  #  gpgcheck: no
+  ###  gpgcheck: no
   
 
 
