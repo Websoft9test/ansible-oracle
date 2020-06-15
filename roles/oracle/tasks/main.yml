@@ -2,7 +2,10 @@
 
 # configure oracle
 
-
+- name: Add oracle User
+  user:
+    name: oracle
+    shell: /usr/sbin/nologin
 
 - name: Create oracle directory
   file:
@@ -21,7 +24,7 @@
           
 
 #- name: Add oracle repositories 
- ##yum_repository:
+ ####yum_repository:
  #   name: oracle
  #   description: oracle yum repo
   #  file: yum.repos.d
@@ -30,7 +33,7 @@
   
 
 
-- name: Download foo.conf
+- name: Download oracle
   get_url:
     url: https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm
     dest: /root
@@ -43,7 +46,7 @@
 
 # oracle configuration
 - name: Set password
-  shell: (echo "password"; echo "password";) | /etc/init.d/oracle-xe-18c configure
+  shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
 
 
 - name: start and enable oracle service
@@ -57,17 +60,20 @@
          dest:  /etc/hosts
          line: '0.0.0.0 localhost'
 
-- name: 
+- name: Configure  
   lineinfile:
          dest:  /opt/oracle/product/18c/dbhomeXE/network/admin/tnsnames.ora
          regexp: '^HOST='
          line: 'HOST= 0.0.0.0'
 
 
+- name: Set soft link 
+  shell: ln -sf /etc/systemd/system/oracle-xe-18c.service  /etc/systemd/system/oracle.service
+
 
 - name: Restart oracle.service
   service:
-    name: oracle-xe-18c.service
+    name: oracle.service
     state: restarted
     enabled: yes
 
@@ -89,6 +95,7 @@
     ln -sf /opt/oracle  /data/wwwroot
     ln -sf /opt/oracle/config /data/config
     ln -sf /opt/oracle/cfgtoollogs/dbca/XE   /data/logs
+    
 
 # Check version,
 # must use sudo sh -c to solve the no-root permission
