@@ -37,24 +37,24 @@
 
 - name: Download oracle
   get_url:
-    url: https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm
+    url: https://download.oracle.com/otn/linux/oracle18c/180000/oracle-database-ee-18c-1.0-1.x86_64.rpm
     dest: /root
     mode: '0440'
          
 
 - name: install oracle
-  shell: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
+  shell: yum -y localinstall oracle-database-ee-18c-1.0-1.x86_64.rpm    
 
 # oracle configuration
 - name: Set password
-  shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
+  shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-ee-18c configure
 
 
 - name: start and enable oracle service
   shell: |
           systemctl daemon-reload
-          systemctl start oracle-xe-18c
-          /sbin/chkconfig oracle-xe-18c on
+          systemctl start oracle-ee-18c
+          /sbin/chkconfig oracle-ee-18c on
 
 - name: /etc/hosts 
   lineinfile:
@@ -69,7 +69,7 @@
 
 
 - name: Set soft link 
-  shell: ln -sf /etc/systemd/system/oracle-xe-18c.service  /etc/systemd/system/oracle.service
+  shell: ln -sf /etc/systemd/system/oracle-ee-18c.service  /etc/systemd/system/oracle.service
 
 
 - name: Restart oracle.service

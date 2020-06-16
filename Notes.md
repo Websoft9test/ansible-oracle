@@ -49,16 +49,16 @@
 
 #On Oracle Linux
 
-# wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm                                    
-#  yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm
+# wget https://download.oracle.com/otn/linux/oracle18c/180000/oracle-database-ee-18c-1.0-1.x86_64.rpm                          
+#  yum -y localinstall oracle-database-ee-18c-1.0-1.x86_64.rpm
 
 
 ## 路径
 
-- 程序路径：/opt/oracle/product/18c/dbhomeXE
+- 程序路径：/opt/oracle/product/18c/dbhomeXEe
 - 配置文件路径：/etc/sysconfig/oracle-xe-18c.conf
 - 日志路径：/opt/oracle/cfgtoollogs/dbca/XE 
-- 启动路径：/etc/init.d/oracle-xe-18c
+- 启动路径：/etc/init.d/oracle-ee-18c
 - 其他...
 
 ## 配置
@@ -68,7 +68,7 @@
 ```
 #创建Oracle XE数据库
 sudo -s
-(echo "password"; echo "password";) | /etc/init.d/oracle-xe-18c configure >> /xe_logs/XEsilentinstall.log 2>&1 #运行服务配置脚本  password为您设置的指定密码，适用于SYS，SYSTEM以及PDBADMIN管理用户帐户。Oracle建议输入的密码长度至少为8个字符，至少包含1个大写字母，1个小写字母和1个数字[0-9]。
+(echo "password"; echo "password";) | /etc/init.d/oracle-ee-18c configure >> /xe_logs/XEsilentinstall.log 2>&1 #运行服务配置脚本  password为您设置的指定密码，适用于SYS，SYSTEM以及PDBADMIN管理用户帐户。Oracle建议输入的密码长度至少为8个字符，至少包含1个大写字母，1个小写字母和1个数字[0-9]。
 systemctl daemon-reload
 systemctl start oracle-xe-18c
 systemctl enable oracle-xe-18c
