@@ -42,7 +42,7 @@
     mode: '0440'
          
 
-- name: install oracle
+- name: Install oracle
   shell: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
 
 # oracle configuration
@@ -50,22 +50,14 @@
   shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
 
 
-- name: start and enable oracle service
+- name: Set the environment
   shell: |
-          systemctl daemon-reload
-          systemctl start oracle-xe-18c
-          /sbin/chkconfig oracle-xe-18c on
-
-- name: /etc/hosts 
-  lineinfile:
-         dest:  /etc/hosts
-         line: '0.0.0.0 localhost'
-
-- name: Configure  
-  lineinfile:
-         dest:  /opt/oracle/product/18c/dbhomeXE/network/admin/tnsnames.ora
-         regexp: '^HOST='
-         line: 'HOST= 0.0.0.0'
+    su - oracle 
+    echo "export ORACLE_BASE=/opt/oracle"  >> ~/.bash_profile
+    echo  "export ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE" >> ~/.bash_profile
+    echo "export ORACLE_SID=XE"  >> ~/.bash_profile
+    echo "export PATH=$PATH:$ORACLE_HOME/bin"  >> ~/.bash_profile
+    source  ~/.bash_profile
 
 
 - name: Set soft link 

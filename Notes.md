@@ -33,17 +33,17 @@
 # wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm                                   
 # yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm  
 
-#On Oracle Linux
+#On Oracle Linux  
 
 # wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm                                   
 # yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm  
 
 ## 路径
 
-- 程序路径：/opt/oracle/product/18c/dbhomeXEe
+- 程序路径：/opt/oracle/product/18c/dbhomeXE
 - 配置文件路径：/etc/sysconfig/oracle-xe-18c.conf
 - 日志路径：/opt/oracle/cfgtoollogs/dbca/XE 
-- 启动路径：/etc/init.d/oracle-ee-18c
+- 启动路径：/etc/init.d/oracle-xe-18c
 - 其他...
 
 ## 配置
@@ -54,16 +54,30 @@
 #创建Oracle XE数据库
 sudo -s
 (echo "password"; echo "password";) | /etc/init.d/oracle-ee-18c configure >> /xe_logs/XEsilentinstall.log 2>&1 #运行服务配置脚本  password为您设置的指定密码，适用于SYS，SYSTEM以及PDBADMIN管理用户帐户。Oracle建议输入的密码长度至少为8个字符，至少包含1个大写字母，1个小写字母和1个数字[0-9]。
-systemctl daemon-reload
-systemctl start oracle-xe-18c
-systemctl enable oracle-xe-18c
-systemctl stop firewalld  #关闭防火墙
-vi /etc/hosts
-服务器IP localhost    #在/etc/hosts 文件中增加一行 
+
+#vi /etc/hosts
+#服务器IP localhost    #在/etc/hosts 文件中增加一行 
 vi /opt/oracle/product/18c/dbhomeXE/network/admin/tnsnames.ora
 (ADDRESS = (PROTOCOL = TCP)(HOST = 服务器IP)(PORT = 1521)) #在tnsnames.ora文件中修改localhost为服务器IP
 
 #开放远程访问
+
+
+su - oracle ，然后直接在输入 ： vi .bash_profile
+
+
+
+export ORACLE_BASE=/opt/oracle 
+export ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE
+export ORACLE_SID=XE
+export PATH=$PATH:$ORACLE_HOME/bin
+source .bash_profile
+
+systemctl start oracle-xe-18c
+
+
+
+
 su oracle
 sqlplus system 
 输入密码：SYSTEM_password 
