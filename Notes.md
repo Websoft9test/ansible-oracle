@@ -1,8 +1,8 @@
 # Oracle Database on Oracle Linux.notes
 
 组件名称：Oracle Database 
-安装文档：https://docs.oracle.com/en/database/oracle/oracle-database/18/ladbi/running-rpm-packages-to-install-oracle-database.html#GUID-BB7C11E3-D385-4A2F-9EAF-75F4F0AACF02
-配置文档：http://activemq.apache.org/components/artemis/migration
+安装文档：https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/procedure-installing-oracle-database-xe.html
+配置文档：https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/setting-oracle-database-xe-environment-variables.html
 支持平台： Debian家族 | RHEL家族 | Windows |Oracle Linux|Docker
 
 责任人：helin
@@ -24,20 +24,6 @@
 
 在.NET下，Oracle数据库XE安装将占用大约9 GB的磁盘空间`/opt`。如果此磁盘分区没有所需的可用磁盘空间，则必须添加空间或将备用分区安装为`/opt/oracle`。该磁盘分区是软件和数据库将驻留的已定义Oracle Base。
 
-    #配置oracle源
-    cd /etc/yum.repos.d
-    wget http://public-yum.oracle.com/public-yum-ol7.repo
-
-
-​     
-
-    #保存退出
-    yum repolist all   #加载源
-
-
-
-
-
 
 #On Red Hat Enterprise Linux
 
@@ -49,9 +35,8 @@
 
 #On Oracle Linux
 
-# wget https://download.oracle.com/otn/linux/oracle18c/180000/oracle-database-ee-18c-1.0-1.x86_64.rpm                          
-#  yum -y localinstall oracle-database-ee-18c-1.0-1.x86_64.rpm
-
+# wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm                                   
+# yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm  
 
 ## 路径
 
