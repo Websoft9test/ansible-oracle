@@ -1,6 +1,6 @@
 # install by OS family
-- name: Install this role on {{ansible_os_family}}
-  include: "{{ansible_os_family}}.yml"
+#- name: Install this role on {{ansible_os_family}}
+ # include: "{{ansible_os_family}}.yml"
 
 # configure oracle
 
