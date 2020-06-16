@@ -37,15 +37,20 @@
 
 
 
-    groupaa dba    
-    groupadd oinstall 
-    useradd -g oinstall -G dba oracle
-    passwd oracle  #设置oracle用户和密码 
-    sudo -s
-    wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm                                     #下载安装包
-    yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm         #安装rpm包
 
 
+#On Red Hat Enterprise Linux
+
+
+# curl -o oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
+# yum -y localinstall oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
+# wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm                                   
+# yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm  
+
+#On Oracle Linux
+
+# wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm                                    
+#  yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm
 
 
 ## 路径
@@ -74,6 +79,7 @@ vi /opt/oracle/product/18c/dbhomeXE/network/admin/tnsnames.ora
 (ADDRESS = (PROTOCOL = TCP)(HOST = 服务器IP)(PORT = 1521)) #在tnsnames.ora文件中修改localhost为服务器IP
 
 #开放远程访问
+su oracle
 sqlplus system 
 输入密码：SYSTEM_password 
 SQL> EXEC DBMS_XDB.SETLISTENERLOCALACCESS（FALSE）;
