@@ -53,7 +53,7 @@
 ```
 #创建Oracle XE数据库
 sudo -s
-(echo "password"; echo "password";) | /etc/init.d/oracle-ee-18c configure >> /xe_logs/XEsilentinstall.log 2>&1 #运行服务配置脚本  password为您设置的指定密码，适用于SYS，SYSTEM以及PDBADMIN管理用户帐户。Oracle建议输入的密码长度至少为8个字符，至少包含1个大写字母，1个小写字母和1个数字[0-9]。
+(echo "password"; echo "password";) | /etc/init.d/oracle-xe-18c configure >> /xe_logs/XEsilentinstall.log 2>&1 #运行服务配置脚本  password为您设置的指定密码，适用于SYS，SYSTEM以及PDBADMIN管理用户帐户。Oracle建议输入的密码长度至少为8个字符，至少包含1个大写字母，1个小写字母和1个数字[0-9]。
 
 #vi /etc/hosts
 #服务器IP localhost    #在/etc/hosts 文件中增加一行 

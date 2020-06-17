@@ -2,6 +2,14 @@
 #- name: Install this role on {{ansible_os_family}}
  # include: "{{ansible_os_family}}.yml"
 
+
+- name: Preinstall  oracle
+  shell: |
+    curl -o oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
+    yum -y localinstall oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
+
+
+
 # configure oracle
 
 - name: Add oracle User
@@ -16,7 +24,7 @@
     owner: oracle
     group: oracle
 
-- name: Create the storage directory for files.
+- name: Create the storage directory for files
   file:
       path: /opt/oracle/data
       state: directory 
@@ -46,18 +54,27 @@
   shell: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
 
 # oracle configuration
-- name: Set password
+- name: Set 
   shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
 
-
-- name: Set the environment
-  shell: |
-    su - oracle 
-    echo "export ORACLE_BASE=/opt/oracle"  >> ~/.bash_profile
-    echo  "export ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE" >> ~/.bash_profile
-    echo "export ORACLE_SID=XE"  >> ~/.bash_profile
-    echo "export PATH=$PATH:$ORACLE_HOME/bin"  >> ~/.bash_profile
-    source  ~/.bash_profile
+   
+  ## set environment variable
+- block:
+  - name: copy    oracle_env.sh  to /etc/profile.d
+    template:
+      src: oracle_env.sh
+      dest: '/etc/profile.d'
+      mode: 0640
+      
+- block:     
+  - name: Export ORACLE_HOME environment variable for this shell
+    shell: |
+      su oracle 
+      export ORACLE_BASE=/opt/oracle 
+      export ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE
+      export ORACLE_SID=XE
+      export PATH=$PATH:$ORACLE_HOME/bin 
+  
 
 
 - name: Set soft link 
