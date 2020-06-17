@@ -1,38 +1,29 @@
 
 
-- name: Preinstall oracle
+- name: Install preinstall oracle
   get_url:
-    url: https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm 
+    url: https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
     dest: /root
 
 - name: Preinstall oracle
   shell: 
-    cmd: yum -y localinstall oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm    
+    cmd: yum -y localinstall oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
     chdir: /root   
 
 - name: Download oracle
   get_url:
-    url: https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm  
+    url: https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm
     dest: /root
-  
-         
+
 - name: Install oracle
   shell: 
-    cmd: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
+    cmd: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm
     chdir: /root
 
 # Oracle configuration
 - name: Set 
   shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
 
-   
-# Set environment variable
-- block:
-  - name: copy    oracle_env.sh  to /etc/profile.d
-    template:
-      src: oracle_env.sh
-      dest: '/etc/profile.d'
-      mode: 0640
       
 - block:     
   - name: Export ORACLE_HOME environment variable for this shell
@@ -41,16 +32,27 @@
       export ORACLE_BASE=/opt/oracle 
       export ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE
       export ORACLE_SID=XE
-      export PATH=$PATH:$ORACLE_HOME/bin 
+      export PATH=$PATH:$ORACLE_HOME/bin
+
+# Set environment variable
+- block:
+  - name: copy    oracle_env.sh  to /etc/profile.d
+    template:
+      src: oracle_env.sh
+      dest: '/etc/profile.d'
+      mode: 0640
   
 # Rename oracle service and  restart oracle
 - name: Set soft link 
-  shell: ln -sf /etc/systemd/system/oracle-xe-18c.service  /etc/systemd/system/oracle.service
+  shell: mv /etc/systemd/system/oracle-xe-18c.service  /etc/systemd/system/oracle.service
 
+
+- name: Reload service
+  shell: systemctl daemon-reload
 
 - name: Restart oracle.service
   service:
-    name: oracle.service
+    name: oracle-xe-18c.service
     state: restarted
     enabled: yes
 
