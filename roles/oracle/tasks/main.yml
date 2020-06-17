@@ -12,12 +12,12 @@
   get_url:
     url: https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm  
     dest: /root
-    mode: '0440'
+  
          
 
 - name: Install oracle
   shell: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
-
+ 
 # oracle configuration
 - name: Set 
   shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
@@ -89,20 +89,6 @@
 
 
 
-- name: Create oracle directory
-  file:
-    path: /data/wwwroot/oracle
-    state: directory
-    owner: oracle
-    group: oracle
-
-- name: Create the storage directory for files
-  file:
-      path: /opt/oracle/data
-      state: directory 
-      owner: oracle 
-      group: oracle
-      mode: g+w
 
 
           
