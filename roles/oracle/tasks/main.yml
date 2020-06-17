@@ -13,7 +13,8 @@
          
 - name: Install oracle
   shell: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
- 
+  chdir: /root
+
 # Oracle configuration
 - name: Set 
   shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
