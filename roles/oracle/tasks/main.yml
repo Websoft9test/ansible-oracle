@@ -25,22 +25,25 @@
   shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
 
       
-- block:     
-  - name: Export ORACLE_HOME environment variable for this shell
-    shell: |
-      su oracle 
+
+- name: change to oracle
+  shell: su oracle
+
+- name: set database directory
+  blockinfile:
+    path: /home/oracle/.bash_profile
+    owner: oracle
+    block: |
       export ORACLE_BASE=/opt/oracle 
       export ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE
       export ORACLE_SID=XE
       export PATH=$PATH:$ORACLE_HOME/bin
 
-# Set environment variable
-- block:
-  - name: copy    oracle_env.sh  to /etc/profile.d
-    template:
-      src: oracle_env.sh
-      dest: '/etc/profile.d'
-      mode: 0640
+- name: source ok
+  shell: source /home/oracle/.bash_profile
+
+
+
   
 # Rename oracle service and  restart oracle
 
