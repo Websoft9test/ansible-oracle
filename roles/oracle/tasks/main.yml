@@ -43,8 +43,7 @@
       mode: 0640
   
 # Rename oracle service and  restart oracle
-- name: Set soft link 
-  shell: mv /etc/systemd/system/oracle-xe-18c.service  /etc/systemd/system/oracle.service
+
 
 
 - name: Reload service
