@@ -1,6 +1,4 @@
-# install by OS family
-#- name: Install this role on {{ansible_os_family}}
- # include: "{{ansible_os_family}}.yml"
+
 
 
 - name: Preinstall  oracle
@@ -8,39 +6,6 @@
     curl -o oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
     yum -y localinstall oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
 
-
-
-# configure oracle
-
-- name: Add oracle User
-  user:
-    name: oracle
-    shell: /usr/sbin/login
-
-- name: Create oracle directory
-  file:
-    path: /data/wwwroot/oracle
-    state: directory
-    owner: oracle
-    group: oracle
-
-- name: Create the storage directory for files
-  file:
-      path: /opt/oracle/data
-      state: directory 
-      owner: oracle 
-      group: oracle
-      mode: g+w
-          
-
-#- name: Add oracle repositories 
- ####yum_repository:
- #   name: oracle
- #   description: oracle yum repo
-  #  file: yum.repos.d
-  #  baseurl: http://public-yum.oracle.com/public-yum-ol7.repo
-  ###  gpgcheck: no
-  
 
 
 - name: Download oracle
@@ -120,3 +85,24 @@
   shell: systemctl status oracle | grep Active*
   register: check_oracle_service
   notify: check_oracle_service
+ 
+
+
+
+- name: Create oracle directory
+  file:
+    path: /data/wwwroot/oracle
+    state: directory
+    owner: oracle
+    group: oracle
+
+- name: Create the storage directory for files
+  file:
+      path: /opt/oracle/data
+      state: directory 
+      owner: oracle 
+      group: oracle
+      mode: g+w
+
+
+          
