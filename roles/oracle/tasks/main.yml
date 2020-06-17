@@ -1,11 +1,8 @@
 
-
-
 - name: Preinstall  oracle
   shell: |
     curl -o oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
     yum -y localinstall oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
-
 
 
 - name: Download oracle
@@ -14,16 +11,15 @@
     dest: /root
   
          
-
 - name: Install oracle
   shell: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
  
-# oracle configuration
+# Oracle configuration
 - name: Set 
   shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
 
    
-  ## set environment variable
+# Set environment variable
 - block:
   - name: copy    oracle_env.sh  to /etc/profile.d
     template:
@@ -40,8 +36,7 @@
       export ORACLE_SID=XE
       export PATH=$PATH:$ORACLE_HOME/bin 
   
-
-
+# Rename oracle service and  restart oracle
 - name: Set soft link 
   shell: ln -sf /etc/systemd/system/oracle-xe-18c.service  /etc/systemd/system/oracle.service
 
@@ -53,16 +48,6 @@
     enabled: yes
 
 
-
-
-
-
-
-
-
-
-
-
 # set soft link, -b cover the exist links
 # ln -sf src des
 - name: set soft link
@@ -72,20 +57,19 @@
     ln -sf /opt/oracle/cfgtoollogs/dbca/XE   /data/logs
     
 
-# Check version,
-# must use sudo sh -c to solve the no-root permission
-- block:
-  - name: Check oracle Version
-    shell: sudo sh -c "oraclectl status | grep 'oracle version' 1>> /data/logs/install_version.txt"
-
-
-
 # check service state
 - name: Check oracle Service     
   shell: systemctl status oracle | grep Active*
   register: check_oracle_service
   notify: check_oracle_service
  
+# Check version,
+# must use sudo sh -c to solve the no-root permission
+- block:
+  - name: Check oracle Version
+    shell: |
+      su -oracle
+      sqlplus
 
 
 
