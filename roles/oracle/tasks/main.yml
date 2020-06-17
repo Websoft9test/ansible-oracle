@@ -65,14 +65,5 @@
  
 # Check version,
 # must use sudo sh -c to solve the no-root permission
-- block:
-  - name: Check oracle Version
-    shell: |
-      su -oracle
-      sqlplus
-
-
-
-
-
-          
+- name: check version
+  shell: sudo sh -c "echo ` rpm -qa |grep oracle-database-xe` >> /data/logs/install_version.txt"
