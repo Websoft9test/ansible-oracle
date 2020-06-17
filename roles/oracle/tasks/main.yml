@@ -12,8 +12,9 @@
   
          
 - name: Install oracle
-  shell: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
-  chdir: /root
+  shell: 
+    cmd: yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm    
+    chdir: /root
 
 # Oracle configuration
 - name: Set 
