@@ -26,6 +26,7 @@
 
       
 
+
 - name: change to oracle
   shell: su oracle
 
@@ -41,26 +42,25 @@
 
 - name: source ok
   shell: source /home/oracle/.bash_profile
-
-
-
-  
 # Rename oracle service and  restart oracle
 
 
 
 - name: Reload service
-  shell: systemctl daemon-reload
+  shell: systemctl daemon-reload 
+
+- name: Rename service
+  shell:   ln -sf /run/systemd/generator.late/oracle-xe-18c.service    /run/systemd/generator.late/oracle.service
+
 
 - name: Restart oracle.service
   service:
-    name: oracle-xe-18c.service
+    name: oracle.service
     state: restarted
-    enabled: yes
+   
 
 
-# set soft link, -b cover the exist links
-# ln -sf src des
+
 - name: set soft link
   shell: |
     ln -sf /opt/oracle  /data/wwwroot
@@ -77,4 +77,4 @@
 # Check version,
 # must use sudo sh -c to solve the no-root permission
 - name: check version
-  shell: sudo sh -c "echo ` rpm -qa |grep oracle-database-xe` >> /data/logs/install_version.txt"
+  shell: sudo sh -c "echo ` rpm -qa |grep oracle-database-xe` “>> /data/logs/install_version.txt"
