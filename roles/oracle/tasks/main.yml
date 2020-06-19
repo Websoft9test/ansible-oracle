@@ -2,7 +2,7 @@
  
 # install ORACLE by OS_family
 - name: Install this role on {{ansible_os_family}}
-  include: "{{ansible_os_family}}.yml"
+  include: "{{ansible_os_family}}.yml" 
 
 - name: Download oracle
   get_url:
@@ -52,7 +52,11 @@
     name: oracle.service
     state: restarted
    
-
+- name: Create oracle directory
+  file:
+    path: /data/wwwroot/oracle
+    state: directory
+  
 
 
 - name: set soft link
