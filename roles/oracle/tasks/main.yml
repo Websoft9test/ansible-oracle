@@ -52,9 +52,9 @@
 
 - name: set soft link
   shell: |
-    ln -sf /opt/oracle  /data/root
-    ln -sf /opt/oracle/config /data/config
-    ln -sf /opt/oracle/cfgtoollogs/dbca/XE   /data/logs   
+    ln -sf /opt/oracle  /data
+    ln -sf /opt/oracle/config /data/oracle/config
+    ln -sf /opt/oracle/cfgtoollogs/dbca/XE   /data/oracle/logs   
 
 # check service state
 - name: Check oracle Service     
