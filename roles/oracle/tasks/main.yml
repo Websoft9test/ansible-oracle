@@ -57,14 +57,14 @@
    
 - name: Create oracle directory
   file:
-    path: /data/wwwroot/oracle
+    path: /data/root/oracle
     state: directory
   
 
 
 - name: set soft link
   shell: |
-    ln -sf /opt/oracle  /data/wwwroot
+    ln -sf /opt/oracle  /data/root
     ln -sf /opt/oracle/config /data/config
     ln -sf /opt/oracle/cfgtoollogs/dbca/XE   /data/logs
     
