@@ -1,5 +1,3 @@
-
- 
 # install ORACLE by OS_family
 - name: Install this role on {{ansible_os_family}}
   include: "{{ansible_os_family}}.yml"
@@ -17,10 +15,7 @@
 # Oracle configuration
 - name: Set 
   shell: (echo {{oracle_db_password}}; echo {{oracle_db_password}};) | /etc/init.d/oracle-xe-18c configure
-
-      
-
-
+  
 - name: change to oracle
   shell: su oracle
 
@@ -36,15 +31,10 @@
 
 - name: source ok
   shell: source /home/oracle/.bash_profile
+
 # Rename oracle service and  restart oracle
-
-
-
 - name: Reload service
   shell: systemctl daemon-reload
-
-
-
 
 - name: Restart oracle.service
   service:
@@ -52,24 +42,19 @@
     state: restarted
     enabled: yes
 
-
-
 - name: Rename service
   shell:   ln -sf   /run/systemd/generator.late/oracle-xe-18c.service    /lib/systemd/system/oracle.service
    
 - name: Create oracle directory
   file:
     path: /data/root/oracle
-    state: directory
-  
-
+    state: directory 
 
 - name: set soft link
   shell: |
     ln -sf /opt/oracle  /data/root
     ln -sf /opt/oracle/config /data/config
-    ln -sf /opt/oracle/cfgtoollogs/dbca/XE   /data/logs
-    
+    ln -sf /opt/oracle/cfgtoollogs/dbca/XE   /data/logs   
 
 # check service state
 - name: Check oracle Service     
@@ -80,4 +65,4 @@
 # Check version,
 # must use sudo sh -c to solve the no-root permission
 - name: check version
-  shell: sudo sh -c "echo ` rpm -qa |grep oracle-database-xe` “>> /data/logs/install_version.txt"
+  shell: sudo sh -c "echo ` rpm -qa |grep oracle-database-xe` >> /data/logs/install_version.txt"
