@@ -41,7 +41,9 @@
 
 
 - name: Reload service
-  shell: systemctl daemon-reload 
+  shell: systemctl daemon-reload
+
+
 
 - name: Rename service
   shell:   ln -sf /run/systemd/generator.late/oracle-xe-18c.service    /run/systemd/generator.late/oracle.service
@@ -51,6 +53,7 @@
   service:
     name: oracle.service
     state: restarted
+    enable: yes
    
 - name: Create oracle directory
   file:
