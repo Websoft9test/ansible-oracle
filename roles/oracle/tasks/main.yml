@@ -53,7 +53,7 @@
   service:
     name: oracle.service
     state: restarted
-    enable: yes
+    enabled: yes
    
 - name: Create oracle directory
   file:
